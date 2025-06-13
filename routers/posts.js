@@ -10,7 +10,7 @@ router.get("/:id", controllerRouter.show);
 router.post(`/`, controllerRouter.store);
 router.put("/:id", controllerRouter.update);
 router.patch("/:id", controllerRouter.modify);
-router.delete("/:id", controllerRouter.destroy);
+// router.delete("/:id", controllerRouter.destroy);
 
 // export
 module.exports = router;

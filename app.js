@@ -1,5 +1,5 @@
 // import
-const { posts } = require("./db");
+// const { posts } = require("./db");
 const postsRouter = require("./routers/posts");
 const express = require("express");
 const handlerError = require("./middleware/hendolerror");
