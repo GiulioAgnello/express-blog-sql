@@ -2,7 +2,7 @@
 const connection = require(`../db`);
 
 // controller delle routers
-function index(req, res) {
+const index = (req, res) => {
   // query per la chiamata
   const sql = `SELECT * FROM blog_db.posts`;
 
@@ -11,7 +11,7 @@ function index(req, res) {
     if (err) return res.status(500).json({ error: `database query failed` });
     res.json(results);
   });
-}
+};
 const show = (req, res) => {
   // const id = parseInt(req.params.id);
   // const post = posts.find((currentPost) => currentPost.id === id);
@@ -217,6 +217,19 @@ const modify = (req, res) => {
   //     data: posts,
   //   });
 };
+const destroy = (req, res) => {
+  // recupero id
+  const { id } = req.params;
+
+  // eliminiamo il post identicato con id
+  connection.query(`DELETE FROM blog_db.posts WHERE id = ?`, [id], (err) => {
+    if (err)
+      return res.status(500).json({ error: `Failed to delet Post ${[id]}` });
+    res.sendStatus(204);
+  });
+};
+
+// ;
 
 module.exports = {
   index,
@@ -224,4 +237,5 @@ module.exports = {
   store,
   update,
   modify,
+  destroy,
 };
