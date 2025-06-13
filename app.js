@@ -14,7 +14,7 @@ app.use(express.static("public"));
 app.use(express.json());
 
 // accesso all routers
-app.use(postsRouter);
+app.use("/posts", postsRouter);
 
 // middleware per errore
 app.use(handlerError);

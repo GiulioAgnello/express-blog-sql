@@ -220,7 +220,7 @@ const modify = (req, res) => {
 const destroy = (req, res) => {
   // recupero id
   const { id } = req.params;
-  const destroySql = `DELETE FROM blog_db.posts WHERE id = `;
+  const destroySql = `DELETE FROM blog_db.posts WHERE id = ?`;
   // eliminiamo il post identicato con id
   connection.query(destroySql, [id], (err) => {
     if (err)
