@@ -13,19 +13,18 @@ const index = (req, res) => {
   });
 };
 const show = (req, res) => {
-  // const id = parseInt(req.params.id);
-  // const post = posts.find((currentPost) => currentPost.id === id);
-  // if (!post) {
-  //   res.status(404);
-  //   return res.json({
-  //     error: "not found",
-  //     message: "post not found",
-  //   });
-  // }
-  // res.json({
-  //   description: `post selezionato`,
-  //   data: post,
-  // });
+  // query per la chiamata
+  const { id } = req.params;
+  const showSql = `SELECT * FROM blog_db.posts WHERE id = ?`;
+
+  // esecuzione della query
+  connection.query(showSql, [id], (err, results) => {
+    if (err) return res.status(500).json({ error: `database query failed` });
+    if (results.length === 0)
+      return res.status(404).json({ error: `post not found` });
+
+    res.json(results[0]);
+  });
 };
 const store = (req, res) => {
   //   // recuperiamo info dal body
