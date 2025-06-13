@@ -16,14 +16,24 @@ const show = (req, res) => {
   // query per la chiamata
   const { id } = req.params;
   const showSql = `SELECT * FROM blog_db.posts WHERE id = ?`;
+  // con join
+  const tagSql = `SELECT * FROM blog_db.tags JOIN post_tag ON tags.id = post_id WHERE id = ?`;
 
   // esecuzione della query
-  connection.query(showSql, [id], (err, results) => {
+  connection.query(showSql, [id], (err, postResults) => {
     if (err) return res.status(500).json({ error: `database query failed` });
-    if (results.length === 0)
+    if (postResults.length === 0)
       return res.status(404).json({ error: `post not found` });
 
-    res.json(results[0]);
+    const post = postResults[0];
+
+    connection.query(tagSql, [id], (err, tagsResults) => {
+      if (err) return res.status(500).json({ error: "Database query failed" });
+
+      // add tag to post
+      post.tags = tagsResults;
+      res.jeson(post);
+    });
   });
 };
 const store = (req, res) => {
